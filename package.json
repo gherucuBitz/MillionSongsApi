@@ -1,0 +1,27 @@
+{
+    "name": "million_songs",
+    "version": "1.0.0",
+    "description": "API for communicating with the million songs database",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "jest --coverage --forceExit"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/gherucuBitz/MillionSongsApi.git"
+    },
+    "keywords": [
+        "Music"
+    ],
+    "author": "Alex Gheara",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/gherucuBitz/MillionSongsApi/issues"
+    },
+    "homepage": "https://github.com/gherucuBitz/MillionSongsApi#readme",
+    "dependencies": {
+        "express": "^4.17.1",
+        "server": "^1.0.19"
+    }
+}
