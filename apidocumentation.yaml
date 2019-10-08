@@ -1,0 +1,1052 @@
+openapi: 3.0.2
+info:
+  description: This API is used with the Million Song Dataset made available by the CORGIS
+    dataset project to provide users with information related to songs and their
+    affiliated artists. The purpose of the API is to deliver to users both basic
+    and advanced features based on this dataset through a Web app.
+  version: 1.0.14
+  title: Million Songs API
+  termsOfService: https://corgis-edu.github.io/corgis/csv/music/
+  contact:
+    email: group25@rug.nl
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+  - name: Songs
+    description: Access to Songs
+  - name: Artists
+    description: Access to Artists
+  - name: Statistics
+    description: Generate Statistics
+  - name: Search
+    description: Handle Search Operations
+paths:
+
+
+##### --------------- Endpoints for Songs --------------- #####
+## - Get information about a specific song - ##
+  /getSongInfo:
+    get:
+      tags:
+        - Songs
+      description: Get all available information about a specific song identified by its unique dataset ID.
+      parameters:
+      - name: uniqueID
+        required:  true
+        in: query
+        description: The unique ID to look for
+        schema: 
+          type: string
+          example: "SOMZWCG12A8C13C480"
+      responses:
+        200:
+          description: Successfull pull of artists information from the database
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/Song'
+              example:
+                artist_mbtags: 0.0
+                artist_mbtags_count: 0.0
+                bars_confidence: 0.643
+                bars_start: 0.58521
+                beats_confidence: 0.834
+                beats_start: 0.58521
+                duration: 218.93179
+                end_of_fade_in: 0.247
+                hotttnesss: 0.60211999
+                id: "SOMZWCG12A8C13C480"
+                key: 1.0
+                key_confidence: 0.736
+                loudness: -11.197
+                mode: 0
+                mode_confidence: 0.636
+                start_of_fade_out: 218.932
+                tatums_confidence: 0.779
+                tatums_start: 0.28519
+                tempo: 92.198
+                time_signature: 4.0
+                time_signature_confidence: 0.778
+                title: "Lust"
+                year: 2019
+            text/csv:
+              schema:
+                 $ref: '#/components/schemas/Song'
+              example:
+                artist_mbtags,artist_mbtags_count,bars_confidence,bars_start,beats_confidence,beats_start,duration,end_of_fade_in,hotttnesss,id,key,key_confidence,loudness,mode,mode_confidence,start_of_fade_out,tatums_confidence,tatums_start,tempo,time_signature,time_signature_confidence,title,year
+
+                0,0,0.643,0.58521,0.834,0.58521,218.93179,0.247,0.60211999,SOMZWCG12A8C13C480,1,0.736,-11.197,0,0.636,218.932,0.779,0.28519,92.198,4,0.778,Lust,2019            
+              
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: The request was unacceptable, often due to missing a required parameter.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response  
+                
+                "The request was unacceptable, often due to missing a required parameter."
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: The requested resource doesn't exist.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response
+                
+                "The requested resource doesn't exist."                
+                
+        500:
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: Server error.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response  
+                
+                "Server error."                
+        
+                      
+  
+  ## - Get an ordering of songs in a specific year ranked and subsetted by popularity - ##
+  /getSongsByPopularity:
+    get:
+      tags:
+        - Songs
+      description: Get an ordering of songs in a specific year ranked and subsetted by popularity.
+      parameters:
+      - name: hottness
+        in: query
+        description: Popolarity ranking to filter songs by
+        schema:
+          type: integer
+          example: 0.265861049
+      - name: top
+        in: query
+        description: Size of the top
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 10000
+          example: 2
+      responses:
+        200:
+          description: Successfull pull of artists information from the database
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/Song'
+              example:
+                - artist_mbtags: 0.0
+                  artist_mbtags_count: 0.0
+                  bars_confidence: 0.806
+                  bars_start: 1.91886
+                  beats_confidence: 0.44
+                  beats_start: 1.22595
+                  duration: 269.81832
+                  end_of_fade_in: 5.3
+                  hotttnesss: 0.265861049
+                  id: "SOIAZJW12AB01853F1"
+                  key: 4
+                  key_confidence: 0.717
+                  loudness: -13.496
+                  mode: 1
+                  mode_confidence: 0.652
+                  start_of_fade_out: 258.99
+                  tatums_confidence: 0.121
+                  tatums_start: 1.22595
+                  tempo: 86.643
+                  time_signature: 4.0
+                  time_signature_confidence: 0.487
+                  title: 0.0
+                  year: 1984
+                - artist_mbtags: 0.0
+                  artist_mbtags_count: 0.0
+                  bars_confidence: 0.018
+                  bars_start: 1.45439
+                  beats_confidence: 1.0
+                  beats_start: 0.42896  
+                  duration: 245.21098
+                  end_of_fade_in: 0.357 
+                  hotttnesss: 0.265861049
+                  id: "SOKEJEJ12A8C13E0D0"
+                  key: 7
+                  key_confidence: 0.07
+                  loudness: -7.545  
+                  mode: 1
+                  mode_confidence: 0.686
+                  start_of_fade_out: 227.48 
+                  tatums_confidence: 0.728  
+                  tatums_start: 0.1727  
+                  tempo: 117.975  
+                  time_signature: 4.0
+                  time_signature_confidence: 0.835  
+                  title: 0.0
+                  year: 0.0
+            text/csv:
+              schema:
+                 $ref: '#/components/schemas/Song'
+              example:
+                artist_mbtags,artist_mbtags_count,bars_confidence,bars_start,beats_confidence,beats_start,duration,end_of_fade_in,hotttnesss,id,key,key_confidence,loudness,mode,mode_confidence,start_of_fade_out,tatums_confidence,tatums_start,tempo,time_signature,time_signature_confidence,title,year
+                
+                0,0,0.806,1.91886,0.44,1.22595,269.81832,5.3,0.265861049,SOIAZJW12AB01853F1,4,0.717,-13.496,1,0.652,258.99,0.121,1.22595,86.643,4,0.487,0,1984
+
+                0,0,0.018,1.45439,1,0.42896,245.21098,0.357,0.265861049,SOKEJEJ12A8C13E0D0,7,0.07,-7.545,1,0.686,227.48,0.728,0.1727,117.975,4,0.835,0,0
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: The request was unacceptable, often due to missing a required parameter.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response  
+                
+                "The request was unacceptable, often due to missing a required parameter."
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: The requested resource doesn't exist.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response
+                
+                "The requested resource doesn't exist."                
+                
+        500:
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: Server error.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response  
+                
+                "Server error."                     
+                    
+                      
+  ##### --------------- Endpoints for Artists --------------- #####
+  ## - Get information about artists by popularity - ##
+  /getArtistsByPopularity:
+    get:
+      tags:
+        - Artists
+      description: Retrieve an ordering of the artists ranked by their popularity (hotttness index) from more to less popular, with the possibility to subset this order, e.g. the top 50 artists.
+      parameters:
+      - name: hottness
+        in: query
+        required: true
+        description: Popolarity ranking to filter songs by
+        schema:
+          type: integer
+          example: 0.554938523
+      - name: top
+        in: query
+        description: Size of the top
+        schema:
+          type: integer
+          example: 2
+      responses:
+        200:
+          description: Successfull pull of artists information from the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artist'
+              example:
+                - familiarity: 0.909247284
+                  hotttnesss: 0.554938523
+                  id: "AR2FAMK1187FB4CF60"
+                  latitude: 0.0
+                  location: 0.0
+                  longitude: 0.0
+                  name: "AFI"
+                  similar: 0.0
+                  terms: "post-hardcore"
+                  terms_freq: 0.941035412
+                - familiarity: 0.909247284
+                  hotttnesss: 0.554938523
+                  id: "AR2FAMK1187FB4CF60"
+                  latitude: 0.0
+                  location: 0.0
+                  longitude: 0.0
+                  name: "AFI"
+                  similar: 0.0
+                  terms: "post-hardcore"
+                  terms_freq: 0.941035412
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Artist'
+              example:
+                familiarity,hotttnesss,id,latitude,location,longitude,name,similar,terms,terms_freq
+                
+                0.909247284,0.554938523,AR2FAMK1187FB4CF60,0,0,0,AFI,0,post-hardcore,0.941035412
+                
+                0.909247284,0.554938523,AR2FAMK1187FB4CF60,0,0,0,AFI,0,post-hardcore,0.941035412
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: The request was unacceptable, often due to missing a required parameter.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response  
+                
+                "The request was unacceptable, often due to missing a required parameter."
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: The requested resource doesn't exist.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response
+                
+                "The requested resource doesn't exist."                
+                
+        500:
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: Server error.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response  
+                
+                "Server error."                   
+                      
+                      
+  ##### --------------- Endpoints for Statistics --------------- #####
+  ## - Retrieve Statistics - ## 
+  /getStatistics:
+    get:
+      tags:
+        - Statistics
+      description: Get descriptive statistics (mean, median, standard deviation) for the popularity of the songs for a particular artist with an optional filter by year. 
+      parameters:
+        - in: query
+          name: name
+          required: true
+          description: The name of the artist
+          schema:
+            type: string
+            example: '"Bob Marley"'
+        - in: query
+          name: year
+          description: Year to filter by
+          schema:
+            type: integer
+            example: 1999
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statistics'                
+              example: 
+                mean: -0.201436824
+                median: -0.201436824
+                standard_deviation: 0.798563176
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Statistics'                
+              example: 
+                mean,median,standard_deviation
+                
+                -0.201436824,-0.201436824,0.798563176
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: The request was unacceptable, often due to missing a required parameter.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response  
+                
+                "The request was unacceptable, often due to missing a required parameter."
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: The requested resource doesn't exist.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response
+                
+                "The requested resource doesn't exist."                
+                
+        500:
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: Server error.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response  
+                
+                "Server error."                   
+                
+                
+                
+  ## - Get a list of songs based on artist and/or year - ##
+# A get song endpoint, if it is called for the first time by the user,
+# will create a search list. The list then gets updated with new searches, which 
+# can later be removed. 
+#
+# Search idea: search for one of the two parameters, then find a song which is declared by 
+# /getSongInfo, from which info is taken and shown as Artist - Song
+# 
+  /search:
+    post:
+      tags:
+        - Search
+      description: Create the list of searches and add the values of the parameters to the list.
+      parameters:
+      - name: name
+        in: query
+        description: Artist name
+        schema:
+          type: string
+          example: '"Futurologischer Congress"'
+      - name:  year
+        in: query
+        description: Specific year
+        schema:
+          type: string
+          example: 1982
+      - name:  genre
+        in: query
+        description: Genre of the song
+        schema:
+          type: string
+          example: '"kraut rock"'
+      - name:  isSong
+        in: query
+        description: True if the search is for a song and false for an artist
+        schema:
+          type: boolean
+          example: "false"
+      responses:
+        200:
+          description: Successfull creation of the search list
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/Song'
+              example:
+                  familiarity: 0.374763103
+                  hotttnesss: 0.256977994
+                  id: "ARECPYG11C8A42B5BF"
+                  latitude: 0.0
+                  location: 0.0
+                  longitude: 0.0
+                  name: "Futurologischer Congress"
+                  similar: 0.0
+                  terms: "kraut rock"
+                  terms_freq: 0.901433326
+            text/csv:
+              schema:
+                 $ref: '#/components/schemas/Song'
+              example:
+                familiarity,hotttnesss,id,latitude,location,longitude,name,similar,terms,terms_freq
+              
+                0.374763103,0.256977994,ARECPYG11C8A42B5BF,0,0,0,Futurologischer Congress,0,kraut rock,0.901433326
+            
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: The request was unacceptable, often due to missing a required parameter.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response  
+                
+                "The request was unacceptable, often due to missing a required parameter."
+        402:
+          description: Request Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: The parameters were valid but the request failed.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response  
+                
+                "The parameters were valid but the request failed."
+        
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: The requested resource doesn't exist.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response
+                
+                "The requested resource doesn't exist."                
+                
+        500:
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response: Server error.
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/API_Response'
+              example:
+                response  
+                
+                "Server error."                      
+                  
+    put:
+        tags:
+          - Search
+        description: Update the list of searches using the given parameters to filter the list. 
+        parameters:
+        - name: name
+          in: query
+          description: Artist name
+          schema:
+            type: string
+            example: '"MxPx"'
+        - name:  year
+          in: query
+          description: Specific year
+          schema:
+            type: string
+            example: 1995
+        - name:  genre
+          in: query
+          description: Genre of the song
+          schema:
+            type: string
+            example: '"christian rock"'
+        - name:  isSong
+          in: query
+          description: True if the search is for a song and false for an artist
+          schema:
+            type: boolean
+            example: true
+        responses:
+          200:
+            description: Successfull updating of the search list
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Song'
+                example:
+                  - artist_mbtags: 0.0
+                    artist_mbtags_count: 2.0
+                    bars_confidence: 1.0
+                    bars_start: 0.10403
+                    beats_confidence: 1.0
+                    beats_start: 0.10403
+                    duration: 151.24853
+                    end_of_fade_in: 0.312
+                    hotttnesss: 0.466304831
+                    id: "SOLCNJN12A6D4F7740"
+                    key: 11.0
+                    key_confidence: 0.0
+                    loudness: -5.41
+                    mode: 0
+                    mode_confidence: 0.108
+                    start_of_fade_out: 141.891
+                    tatums_confidence: 0.551
+                    tatums_start: 0.10403
+                    tempo: 101.106
+                    time_signature: 1.0
+                    time_signature_confidence: 0.0
+                    title: 0.0
+                    year: 1995
+                  - 
+                    artist_mbtags: 0.0
+                    artist_mbtags_count: 2.0
+                    bars_confidence: 0.021
+                    bars_start: 0.37448
+                    beats_confidence: 0.227
+                    beats_start: 0.37448
+                    duration: 215.24853
+                    end_of_fade_in: 0.0
+                    hotttnesss: -1
+                    id: "SOMOWDB12AF72A8AE2"
+                    key: 5.0
+                    key_confidence: 0.854
+                    loudness: -5.316
+                    mode: 1
+                    mode_confidence: 0.496
+                    start_of_fade_out: 205.264
+                    tatums_confidence: 0.753
+                    tatums_start: 0.37448
+                    tempo: 171.693
+                    time_signature: 4.0
+                    time_signature_confidence: 0.928
+                    title: 0.0
+                    year: 1995
+              text/csv:
+                schema:
+                  $ref: '#/components/schemas/Song'
+                example:
+                  artist_mbtags,artist_mbtags_count,bars_confidence,bars_start,beats_confidence,beats_start,duration,end_of_fade_in,hotttnesss,id,key,key_confidence,loudness,mode,mode_confidence,start_of_fade_out,tatums_confidence,tatums_start,tempo,time_signature,time_signature_confidence,title,year
+      
+                  0,2,1,0.10403,1,0.10403,151.24853,0.312,0.466304831,SOLCNJN12A6D4F7740,11,0,-5.41,0,0.108,141.891,0.551,0.10403,101.106,1,0,0,1995
+          400:
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response: The request was unacceptable, often due to missing a required parameter.
+              text/csv:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response  
+                  
+                  "The request was unacceptable, often due to missing a required parameter."
+          404:
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response: The requested resource doesn't exist.
+              text/csv:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response
+                  
+                  "The requested resource doesn't exist."                
+                  
+          500:
+            description: Something went wrong
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response: Server error.
+              text/csv:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response  
+                  
+                  "Server error."                      
+                    
+                  
+    delete:
+        tags:
+          - Search
+        description: Delete the list of searches.
+        responses:
+          200:
+            description: "Successfull removal of the search list"
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/API_Response'                
+                example:
+                  response: "Successfull removal of the search list"
+              text/csv:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response  
+                  
+                  "Successfull removal of the search list."
+          400:
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response: The request was unacceptable, often due to missing a required parameter.
+              text/csv:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response  
+                  
+                  "The request was unacceptable, often due to missing a required parameter."
+          404:
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response: The requested resource doesn't exist.
+              text/csv:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response
+                  
+                  "The requested resource doesn't exist."                
+                  
+          500:
+            description: Something went wrong
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response: Server error.
+              text/csv:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response  
+                  
+                  "Server error."                   
+                  
+    get:
+        tags:
+          - Search
+        description: Retrieve the list of searches.
+        responses:
+          200:
+            description: "Successfull retrieval of the search list"
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/API_Response'                  
+                example:
+                  response: "Successfull retrieval of the search list"
+              text/csv:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response  
+                  
+                  "Successfull retrieval of the search list"  
+             
+          400:
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response: The request was unacceptable, often due to missing a required parameter.
+              text/csv:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response  
+                  
+                  "The request was unacceptable, often due to missing a required parameter."
+          404:
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response: The requested resource doesn't exist.
+              text/csv:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response
+                  
+                  "The requested resource doesn't exist."                
+                  
+          500:
+            description: Something went wrong
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response: Server error.
+              text/csv:
+                schema:
+                  $ref: '#/components/schemas/API_Response'
+                example:
+                  response  
+                  
+                  "Server error."                      
+  
+        
+# externalDocs:
+#   description: Find out more about Swagger
+#   url: http://swagger.io
+servers:
+  - url: https://localhost:3001/
+  - url: http://localhost:3001/
+components:
+  schemas:
+    Artist:
+      type: object
+      properties:
+        familiarity:
+          type: number
+          minimum: 0
+          maximum: 1
+          format: float
+          description: A measure for how familiar the artist is to listeners
+        hotttnesss:
+          type: number
+          minimum: 0
+          maximum: 1
+          format: float
+          description: A measure of the artists's popularity
+        id:
+          type: string
+          format: int32
+          description: A unique ID for this artist
+        latitude:
+          type: number
+          format: float
+          description: The home location's latitude of this artist
+        location:
+          type: integer
+          format: int64
+        longitude:
+          type: number
+          format: float
+          description: The home location's longitude of this artist
+        name:
+          type: string
+          description: The name of the artist
+        similar:
+          type: number
+          format: float
+        terms:
+          type: string
+          description: The term most associated with this artist
+        terms_freq:
+          type: number
+          format: float
+          description: The frequency of this term
+      xml:
+        name: Artist
+    Song:
+      type: object
+      properties:
+        artist_mbtags:
+          type: number
+          format: float
+        artist_mbtags_count:
+          type: number
+          format: float
+          description: Number of tags for the artist on mbtags
+        bars_confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+          format: float
+          description: Confidence value associated with each bar
+        bars_start:
+          type: number
+          format: float
+          description: Average start time of each bar, measured in bars
+        beats_confidence:
+          type: number
+          format: float
+          description: Average confidence interval of the beats
+        beats_start:
+          type: number
+          format: float
+          description: Average start time of each beat, measured in beats
+        duration:
+          type: number
+          format: float
+          description: Duration of the track in seconds.
+        end_of_fade_in:
+          type: number
+          format: float
+          description: Time of the end of the fade in, at the beginning of the song.
+        hotttnesss:
+          type: number
+          minimum: 0
+          maximum: 1
+          format: float
+          description: A measure of the song's popularity
+        id:
+          type: string
+          description: A uniquely identifying number for the song.
+        key:
+          type: number
+          minimum: 0
+          maximum: 11
+          format: float
+          description: Estimation of the key the song is in
+        key_confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+          format: float
+          description: Confidence value of the key estimation
+        loudness:
+          type: number
+          format: float
+          description: General loudness of the track
+        mode:
+          type: integer
+          format: int32
+          description: Estimation of the mode the song
+        mode_confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+          format: float
+          description: Confidence value of the mode estimation
+        start_of_fade_out:
+          type: number
+          format: float
+          description: Start time of the fade out, in seconds, at the end of the song
+        tatums_confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+          format: float
+          description: Confidence value associated with each tatum
+        tatums_start:
+          type: number
+          format: float
+          description: Average start time of each tatum, measured in tatums
+        tempo:
+          type: number
+          format: float
+          description: Tempo in BPM
+        time_signature:
+          type: number
+          format: float
+          description: Time signature of the song, i.e. usual number of beats per bar.
+        time_signature_confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+          format: float
+          description: Confidence of the time signature estimation
+        title:
+          type: integer
+          format: int64
+          description: Name of the song
+        year:
+          type: integer
+          format: int32
+          description: Year when this song was released
+      xml:
+        name: Song
+          
+    Release:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: integer
+          format: int32
+    Statistics:
+      type: object
+      properties:
+        mean:
+          type: number
+          format: float
+          description: Mean
+        median:
+          type: number
+          format: float
+          description: Median
+        standard_deviation:
+          type: number
+          format: float
+          description: Standard Deviation
+    API_Response:
+      type: object
+      properties: 
+        response: 
+          type: string
+          description: Response from the server
+        
+          

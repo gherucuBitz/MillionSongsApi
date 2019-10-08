@@ -21,7 +21,12 @@
     },
     "homepage": "https://github.com/gherucuBitz/MillionSongsApi#readme",
     "dependencies": {
+        "async": "^3.1.0",
+        "convert-csv-to-array": "^1.0.3",
+        "csv-parse": "^4.6.3",
+        "ejs": "^2.7.1",
         "express": "^4.17.1",
+        "js-yaml": "^3.13.1",
         "server": "^1.0.19"
     }
 }
