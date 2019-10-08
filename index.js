@@ -1,10 +1,10 @@
+// Server configuration
 const express = require('express')
 const app = express()
 const port = 3000
-
-var server=app.listen(3000,function() {});
-console.log("Server started and listening on port 3000")
-
+var clientIp;
+var server = app.listen(port,function() {});
+console.log("Server started and listening on port " + port);
 
 
 // Default route of the server that prints the documentation
@@ -12,13 +12,21 @@ app.get('/',(function(req,res){
     var http = require('http'),
     fs = require('fs');
 
-
     fs.readFile('./index.html', function (err, html) {
     res.writeHeader(200, {"Content-Type": "text/html"});
     res.write(html);
     res.end();
 });
 }));
+
+
+// Reading the CSV database and converting it into a JSON Object
+var musicDB;
+const csvFilePath='music.csv';
+const csv=require('csvtojson');
+csv().fromFile(csvFilePath).then((jsonObj)=>{
+    musicDB = jsonObj;
+})
 
 
 // GetSongInfo Route
@@ -59,4 +67,4 @@ app.route('/getStatistics').get(function(req,res)
 app.route('/search').get(function(req,res)
 {
     res.send("Retrieve the list of searches.");
-}),
+})
